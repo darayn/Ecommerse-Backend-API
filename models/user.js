@@ -9,18 +9,18 @@ const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'Please provide a name'],
-        maxlength: [40, 'Nae should be under 40 character']
+        maxlength: [40, 'Name should be under 40 character']
     },
     email: {
         type: String,
         required: [true, 'Please provide an email'],
-        validate: [validator.isEmail, 'Please enter eail in correct format'],
+        validate: [validator.isEmail, 'Please enter email in correct format'],
         unique: true
     },
     password: {
         type: String,
         required: [true, 'Please provide a password'],
-        minlength: [8, 'Password should atleast consist 6 characters'],
+        minlength: [8, 'Password should atleast consist 8 characters'],
         select: false
     },
     role: {
