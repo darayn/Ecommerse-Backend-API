@@ -4,7 +4,7 @@
   "description": "a backend api for ecommerse store",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "node index.js",
     "dev": "nodemon index.js"
   },
   "repository": {

@@ -47,3 +47,32 @@ exports.signup = BigPromise(async (req, res, next) =>{
 
     res.send(user)
 });
+
+
+exports.login = BigPromise(async (req, res, next) => {
+    const {email, password} = req.body;
+
+    // chack for presense of email and password
+    if(!email || !password){
+        return next(new CustomError('Please provide both email and password', 400))
+    }
+
+    // getting user from db
+    const user = User.findOne({email}).select("+password")
+    // refer this -  https://stackoverflow.com/questions/12096262/how-to-protect-the-password-field-in-mongoose-mongodb-so-it-wont-return-in-a-qu
+    // if user not found in DB
+    if(!user){
+        return next(new CustomError('Email not registered ', 400))
+    }
+
+    // validating/ matching the password
+    const isPasswordCorrect = await user.isValidatedPassword(password)
+
+    // if password is incorrect
+    if(!isPasswordCorrect){
+        return next(new CustomError('Password does not match ', 400))
+    }
+
+    // if all goes good we send the token
+    cookieToken(user, res); 
+})
