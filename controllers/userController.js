@@ -58,7 +58,7 @@ exports.login = BigPromise(async (req, res, next) => {
     }
 
     // getting user from db
-    const user = User.findOne({email}).select("+password")
+    const user = await User.findOne({email}).select("+password")
     // refer this -  https://stackoverflow.com/questions/12096262/how-to-protect-the-password-field-in-mongoose-mongodb-so-it-wont-return-in-a-qu
     // if user not found in DB
     if(!user){
