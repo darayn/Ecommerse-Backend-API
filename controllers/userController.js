@@ -3,7 +3,8 @@ const BigPromise = require("../middlewares/bigPromise");
 const CustomError = require("../utils/customError");
 const cookieToken = require("../utils/cookieToken");
 const fileUpload = require("express-fileupload")
-const cloudinary = require('cloudinary')
+const cloudinary = require('cloudinary');
+const mailHelper = require("../utils/emailHelper");
 
 
 
@@ -86,5 +87,40 @@ exports.logout = BigPromise(async (req, res, next) => {
         success: true,
         message: "Logout Success"
     })
+})
+
+
+exports.forgotPassword = BigPromise(async (req, res, next) => {
+    const {email} = req.body
+
+    const user = await User.findOne({email})
+
+    if(!user){
+        return next(new CustomError('Email not registered ', 400))
+    }
+
+    const forgotToken = user.getForgotPasswordToken()
+
+    await user.save({validateBeforeSave : false})
+    const myURL = `${req.protocol}://${req.get("host")}/api/v1/password/reset/${forgotToken}`
+
+    const message = `Copy paste this link in your URL and hit enter \n\n URL - ${myURL}`
+    try{
+        await mailHelper({
+            email: user.email,
+            subject : "EcommerseAPI Store | Reset Password email",
+            message
+        });
+        res.status(200).json({
+            success:true,
+            message:"Email Sent Successfully"
+        })
+    }catch{
+        user.forgotPasswordExpiry = undefined 
+        user.forgotPasswordToken = undefined
+        await user.save({validateBeforeSave: false})
+
+        return next(new CustomError(error.message, 500))
+    }
 })
 

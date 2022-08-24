@@ -84,7 +84,7 @@ userSchema.methods.getForgotPasswordToken = function(){
     .update(forgotToken)
     .digest('hex')
     
-    this.forgotPasswordExpiry = Date.now() + FORGOT_PASSWORD_EXPIRY
+    this.forgotPasswordExpiry = Date.now() + process.env.FORGOT_PASSWORD_EXPIRY
     return forgotToken;
 }
 
