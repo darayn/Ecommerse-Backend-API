@@ -51,7 +51,7 @@ const userSchema = new mongoose.Schema({
 // it is a hook
 userSchema.pre('save', async function(next)  {
     if(!this.isModified('password')){
-        return next;
+        return next();
     }
 
     this.password = await bcrypt.hash(this.password, 10)
@@ -84,7 +84,8 @@ userSchema.methods.getForgotPasswordToken = function(){
     .update(forgotToken)
     .digest('hex')
     
-    this.forgotPasswordExpiry = Date.now() + process.env.FORGOT_PASSWORD_EXPIRY
+    this.forgotPasswordExpiry = Date.now() + 20*60*1000; 
+    // expiry time from env doesnt work properly
     return forgotToken;
 }
 
