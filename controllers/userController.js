@@ -12,7 +12,7 @@ exports.signup = BigPromise(async (req, res, next) =>{
     // res.send("signup route")
     // pushing files to cloudinary if present
 
-    let result;
+    // let result;
     if(!req.files){
         return next(new CustomError("User photo is required for signup", 400))
     }
@@ -24,7 +24,7 @@ exports.signup = BigPromise(async (req, res, next) =>{
 
 
     let file = req.files.photo
-    result = await cloudinary.v2.uploader.upload(file.tempFilePath,{
+    const result = await cloudinary.v2.uploader.upload(file.tempFilePath,{
         folder: "users",
         width: 150,
         crop: "scale"
@@ -108,7 +108,7 @@ exports.forgotPassword = BigPromise(async (req, res, next) => {
     try{
         await mailHelper({
             email: user.email,
-            subject : "EcommerseAPI Store | Reset Password email",
+            subject : "EcommerseAPI Store | Reset Password Mail",
             message
         });
         res.status(200).json({
@@ -159,4 +159,15 @@ exports.passwordReset = BigPromise(async (req, res, next) => {
     cookieToken(user, res);
 
 })
+
+exports.getLoggedInUserDetails = BigPromise(async (req, res, next) => {
+    const user = await User.findById(req.user.id)
+
+    res.status(200).json({
+        success: true,
+        user
+    })
+})
+
+
 
