@@ -24,6 +24,7 @@ exports.signup = BigPromise(async (req, res, next) =>{
 
 
     let file = req.files.photo
+    // console.log(file)
     const result = await cloudinary.v2.uploader.upload(file.tempFilePath,{
         folder: "users",
         width: 150,
@@ -169,5 +170,18 @@ exports.getLoggedInUserDetails = BigPromise(async (req, res, next) => {
     })
 })
 
+exports.changePassword = BigPromise(async(req,res,next)=> {
+    const userId = req.user.id // this is done by the middleware isloggedin. it populates information in req object
+    const user = await User.findById(userId).select("+password")
+    const isCorrectOldPassword = await user.isValidatedPassword(req.body.oldPassword)
+    if(!isCorrectOldPassword){
+        return next(new CustomError('Old password is incorrect ', 400));
+    }
 
+    user.password = req.body.password
+    await user.save()
+
+    cookieToken(user, res)
+
+})
 
