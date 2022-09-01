@@ -16,3 +16,17 @@ exports.isLoggedIn = BigPromise(async (req, res, next)=>{
 
     next();
 });
+
+exports.customRole = (...roles) => {
+    return(req, res, next) => {
+        if(!roles.includes(req.user.role)){
+            return next(new CustomError('You are not allowed to access this resourse'), 403)
+        }
+        next()
+    }
+
+    // if(req.user.role === 'admin'){
+    //     next()
+    // }
+    // this approach was followed in mern
+}
