@@ -19,7 +19,7 @@ router.route('/userdashboard/update').post(isLoggedIn,updateUserDetails)
 // admin onlu routes
 
 router.route('/admin/users').get(isLoggedIn, customRole('admin'), adminAllUser)
-// router.route('/admin/user/:id').get(isLoggedIn, customRole('admin'), admingetOneUser)
+router.route('/admin/user/:id').get(isLoggedIn, customRole('admin'), admingetOneUser)
 
 // manager only routes
 router.route('/manager/users').get(isLoggedIn, customRole('manager'), managerAllUser)
