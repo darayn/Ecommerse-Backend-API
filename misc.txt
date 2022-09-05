@@ -7,5 +7,12 @@ Test Users:
 email - pdhanesh343@gmail.com
  password - bambbamb  
 
-email - dhanesh8@gmail.com
+email - dhanesh8@gmail.com --> dhanesh8.u@gmail.com
  password - 12345678  -> bambbamb
+
+ Admin Users - 
+ dhanesh@gmail.com --> 12345678
+
+
+ manager role --> 
+ dhanesh8.u@gmail.com --> bambbamb
