@@ -268,3 +268,30 @@ exports.admingetOneUser = BigPromise(async(req,res,next)=> {
         user
     })
 });
+
+exports.adminUpdateOneUserDetails = BigPromise(async(req,res,next)=> {
+    
+    // TODO: Validate incoming check for email and name in body
+    if(req.body.name == '' || req.body.email == ''){
+        return next(new CustomError("Name, email should be there", 400))
+    }
+
+    const newData = {
+        name :req.body.name,
+        email:req.body.email,
+        role: req.body.role
+    };
+    
+
+    const user = await User.findByIdAndUpdate(req.params.id, newData, {
+        new : true,
+        runValidators: true,
+        useFindAndModify: false
+    })
+    // cookieToken(user, res)
+
+    res.status(200).json({
+        success :true,
+        message: "User updated successfully"
+    })
+});
