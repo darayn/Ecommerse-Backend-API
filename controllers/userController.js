@@ -231,6 +231,7 @@ exports.updateUserDetails = BigPromise(async(req,res,next)=> {
     })
 });
 
+// Admin Controllers
 
 
 exports.adminAllUser = BigPromise(async(req,res,next)=> {
