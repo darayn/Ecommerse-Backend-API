@@ -19,4 +19,5 @@ const cookieToken = (user, res) => {
 }
 
 
+
 module.exports = cookieToken;
