@@ -22,22 +22,22 @@ const productSchema = new mongoose.Schema({
         {
             id: {
                 type: String,
-                required: true
+                required: true,
             },
             secure_url: {
                 type: String,
-                required: true
-            }
-        }
+                required: true,
+            },
+        },
     ],
     category: {
         type: String,
         required: [true, 'Please select category from short-sleeves, long-sleeves, sweat-shirts, hoodies'],
         enum:{
             values: [
-                'short-sleeces',
-                'long-sleeves',
-                'sweat-shirt',
+                'shortsleeces',
+                'longsleeves',
+                'sweatshirt',
                 'hoodies'
             ],
             message: "Please select category ONLY from short-sleeves, long-sleeves, sweat-shirts, hoodies"
