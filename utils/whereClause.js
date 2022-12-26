@@ -28,7 +28,9 @@ class WhereClause(){
 
       const skipVal = resultperpage * (currentPage - 1)
 
-      this.base.limit(resultperpage).skip(skipVal)
-      
+      this.base = this.base.limit(resultperpage).skip(skipVal)
+      return this;
     }
+    
+
 }
