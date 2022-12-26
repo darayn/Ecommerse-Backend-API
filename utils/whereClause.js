@@ -12,12 +12,25 @@ class WhereClause(){
         name: {
           $regex: this.bigQ.search,
           $options: 'i'
-        }
-      } : {
-
-      }
-      this.base = this.base.find({...searchWord})
+        },
+      } : {};
+      this.base = this.base.find({ ...searchWord });
       return this;
+    }
+
+    filter(){
+      const copyQ = {...this.bigQ};
+
+      delete copyQ["search"];
+      delete copyQ["limit"];
+      delete copyQ["page"];
+
+      // convert bigQ into a string
+      let stringofCopyQ = JSON.stringify(copyQ)
+      stringofCopyQ = stringofCopyQ.replace(/(gte|lte|gt|lt)\b/g, (m) =>`$${m}`)
+
+      let jsonOfCopyQ = JSON.parse(stringofCopyQ)
+      this.base = this.base.find(jsonOfCopyQ)
     }
 
     pager(resultperpage){
@@ -31,6 +44,6 @@ class WhereClause(){
       this.base = this.base.limit(resultperpage).skip(skipVal)
       return this;
     }
-    
+
 
 }
