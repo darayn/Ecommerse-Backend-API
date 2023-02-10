@@ -11,7 +11,7 @@ class WhereClause(){
       const searchWord = this.bigQ.search ? {
         name: {
           $regex: this.bigQ.search,
-          $options: 'i'
+          $options: 'i',
         },
       } : {};
       this.base = this.base.find({ ...searchWord });
@@ -27,7 +27,7 @@ class WhereClause(){
 
       // convert bigQ into a string
       let stringofCopyQ = JSON.stringify(copyQ)
-      stringofCopyQ = stringofCopyQ.replace(/(gte|lte|gt|lt)\b/g, (m) =>`$${m}`)
+      stringofCopyQ = stringofCopyQ.replace(/\b(gte|lte|gt|lt)\b/g, (m) =>`$${m}`)
 
       let jsonOfCopyQ = JSON.parse(stringofCopyQ)
       this.base = this.base.find(jsonOfCopyQ)
@@ -47,3 +47,5 @@ class WhereClause(){
 
 
 }
+
+module.exports = WhereClause;
