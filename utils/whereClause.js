@@ -1,7 +1,7 @@
 //bigQ - //search=product?search=coder&page=2&category=shortsleeves&rating[gte]=4
 // &price[lte]=999&price[gte]=199
 // base = Product.find()
-class WhereClause(){
+class WhereClause{
     constructor(base, bigQ){
       this.base = base;
       this.bigQ = bigQ;
