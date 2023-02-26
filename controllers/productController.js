@@ -4,6 +4,7 @@ const CustomError = require("../utils/customError");
 const cookieToken = require("../utils/cookieToken");
 const cloudinary = require('cloudinary');
 const WhereClause = require("../utils/whereClause");
+const product = require("../models/product");
 
 exports.addProduct = BigPromise(async (req,res, next) => {
     // images
@@ -59,5 +60,32 @@ exports.getAllProduct = BigPromise(async(req,res,next) => {
         products: products,
         filteredProductNumber: filteredProductNumber,
         totalcountProduct: totalcountProduct
+    })
+})
+
+exports.getOneProduct = BigPromise(async(req,res,next) => {
+    const product = await Product.findById(req.params.id)
+
+    if (!product){
+        return next(new CustomError('No Product found with this id', 401))
+    }
+    res.status(200).json({
+        success: true,
+        product: product
+    })
+})
+
+exports.adminGetAllProduct = BigPromise(async(req,res,next) => {
+    const products = await Product.find()
+    if(!products){
+        res.status(400).json({
+            success: false,
+            message: "No Products Found",
+            products
+        })
+    }
+    res.status(200).json({
+        success: true,
+        products
     })
 })
