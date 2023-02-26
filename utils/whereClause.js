@@ -31,6 +31,7 @@ class WhereClause{
 
       let jsonOfCopyQ = JSON.parse(stringofCopyQ)
       this.base = this.base.find(jsonOfCopyQ)
+      return this;
     }
 
     pager(resultperpage){

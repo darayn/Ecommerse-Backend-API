@@ -14,41 +14,45 @@ exports.addProduct = BigPromise(async (req,res, next) => {
     }
 
     if(req.files){
-        for (let index = 0; index < req.files.length; index++) {
-            let result = await cloudinary.v2.uploader.upload(req.files.photos[index]
-                .tempFilePath, {
-                    folder: "products"
-                })
+        for (let index = 0; index < req.files.photos.length; index++) {
+            let result = await cloudinary.v2.uploader.upload(
+              req.files.photos[index].tempFilePath,
+              {
+                folder: "products",
+              }
+            );
             imageArray.push({
-                id: result.pubic_id,
-                secure_url: result.secure_url
-            })
+                secure_url: result.secure_url,
+                id: result.public_id,
+            });
             
         }
     }
 
-    req.body.photos = imageArray
-    req.body.user = req.user.id
+    req.body.photos = imageArray;
+    req.body.user = req.user.id;
 
-    const Product = await Product.create(req.body)
+    const product = await Product.create(req.body);
     res.status(200).json({
         success: true,
-        product: Product
-    })
-})
+        product,
+    });
+});
 
 exports.getAllProduct = BigPromise(async(req,res,next) => {
     const resultPerPage = 6
-    // const totalcountProduct = await Product.countDocuments()
+    const totalcountProduct = await Product.countDocuments()
 
 
     
-    const products = new WhereClause(Product.find(), req.query).search().filter();
+    const productsObj = new WhereClause(Product.find(), req.query).search().filter();
+
+    let products = await productsObj.base
 
     const filteredProductNumber = products.length
 
-    products.pager(resultPerPage)
-    products = await products.base
+    productsObj.pager(resultPerPage)
+    products = await productsObj.base.clone()
 
     res.status(200).json({
         success: true,
