@@ -94,7 +94,7 @@ exports.adminGetAllProduct = BigPromise(async(req,res,next) => {
 
 exports.adminUpdateOneProduct = BigPromise(async(req,res,next) => {
     
-    const product = await Product.findById(req.params.id)
+    let product = await Product.findById(req.params.id)
 
     if (!product){
         return next(new CustomError('No Product found with this id', 401))
