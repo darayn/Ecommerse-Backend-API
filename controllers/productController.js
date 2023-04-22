@@ -127,10 +127,9 @@ exports.adminUpdateOneProduct = BigPromise(async(req,res,next) => {
                 id: result.public_id,
             });
         }
-
+        req.body.photos = imagesArray
     }
 
-    req.body.photos = imagesArray
     product = await Product.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators: true,
