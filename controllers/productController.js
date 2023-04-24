@@ -119,6 +119,49 @@ exports.addReview = BigPromise(async(req,res,next) => {
 
  })
 
+exports.deleteReview = BigPromise(async(req,res,next) => {
+    const {productId } = req.query
+
+    const product = await Product.findById(productId)
+
+    const reviews = product.reviews.filter(
+        (rev) => rev.user.toString() === req.user._id.toString()
+    )
+
+    const numberOfReviews = reviews.length
+
+    // adjust average rating 
+
+    product.ratings = product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+    product.reviews.length
+
+    // upate the product
+    await Product.findByIdAndUpdate(productId, {
+        reviews,
+        ratings,
+        numberOfReviews
+    },{
+        new: true,
+        runValidators: true,
+        useFindAndModify: false
+    })
+
+    res.status(200).json({
+        success: true
+    })
+
+ })
+
+exports.getOnlyReviewsForOneProduct = BigPromise(async(req,res,next) => {
+    const product = await Product.findById(request.query.id)
+
+    res.status(200).json({
+        success: true,
+        reviews: product.review
+    })
+
+ })
+
 // Admin only controllers
 
 exports.adminGetAllProduct = BigPromise(async(req,res,next) => {
