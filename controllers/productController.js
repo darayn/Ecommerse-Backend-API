@@ -100,7 +100,7 @@ exports.addReview = BigPromise(async(req,res,next) => {
         })
     }
     else{
-        product.review.push(review)
+        product.reviews.push(review)
         product.numberOfReviews = product.reviews.length
     }
 
@@ -153,11 +153,11 @@ exports.deleteReview = BigPromise(async(req,res,next) => {
  })
 
 exports.getOnlyReviewsForOneProduct = BigPromise(async(req,res,next) => {
-    const product = await Product.findById(request.query.id)
+    const product = await Product.findById(req.query.id)
 
     res.status(200).json({
         success: true,
-        reviews: product.review
+        reviews: product.reviews
     })
 
  })
