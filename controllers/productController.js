@@ -119,11 +119,7 @@ exports.addReview = BigPromise(async(req,res,next) => {
 
  })
 
-exports.deleteReview = BigPromise(async(req,res,next) => {
-exports.deleteReview = BigPromise(async(req,res,next) => {
-    const {productId } = req.query
  exports.deleteReview = BigPromise(async(req,res,next) => {
-    const {productId } = req.query
     
     const { productId } = req.query
 
