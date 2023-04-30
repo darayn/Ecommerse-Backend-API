@@ -120,23 +120,29 @@ exports.addReview = BigPromise(async(req,res,next) => {
  })
 
 exports.deleteReview = BigPromise(async(req,res,next) => {
+exports.deleteReview = BigPromise(async(req,res,next) => {
     const {productId } = req.query
+ exports.deleteReview = BigPromise(async(req,res,next) => {
+    const {productId } = req.query
+    
+    const { productId } = req.query
 
-    const product = await Product.findById(productId)
+    let product = await Product.findById(productId)
 
     const reviews = product.reviews.filter(
-        (rev) => rev.user.toString() === req.user._id.toString()
+        (rev) => rev.user.toString() !== req.user._id.toString()
     )
 
     const numberOfReviews = reviews.length
 
     // adjust average rating 
+    let ratings = 0;
+    if (numberOfReviews > 0) {
+        ratings = reviews.reduce((acc, item) => item.rating + acc, 0) / numberOfReviews;
+    }
 
-    product.ratings = product.reviews.reduce((acc, item) => item.rating + acc, 0) /
-    product.reviews.length
-
-    // upate the product
-    await Product.findByIdAndUpdate(productId, {
+    // update the product
+    product = await Product.findByIdAndUpdate(productId, {
         reviews,
         ratings,
         numberOfReviews
