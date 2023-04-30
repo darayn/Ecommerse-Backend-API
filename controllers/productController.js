@@ -123,7 +123,7 @@ exports.addReview = BigPromise(async(req,res,next) => {
     
     const { productId } = req.query
 
-    let product = await Product.findById(productId)
+    const product = await Product.findById(productId)
 
     const reviews = product.reviews.filter(
         (rev) => rev.user.toString() !== req.user._id.toString()
@@ -138,7 +138,7 @@ exports.addReview = BigPromise(async(req,res,next) => {
     }
 
     // update the product
-    product = await Product.findByIdAndUpdate(productId, {
+    await Product.findByIdAndUpdate(productId, {
         reviews,
         ratings,
         numberOfReviews
