@@ -4,7 +4,10 @@ const CustomError = require("../utils/customError");
 const BigPromise = require("./bigPromise");
 
 exports.isLoggedIn = BigPromise(async (req, res, next)=>{
-    const token = req.cookies.token || req.header("Authorization").replace("Bearer ", "")
+
+    const authHeader = req.header("Authorization");
+
+    const token = req.cookies.token || (authHeader && authHeader.replace("Bearer ", ""));
 
     if(!token){
         return next(new CustomError('Login to access this page '), 401)
