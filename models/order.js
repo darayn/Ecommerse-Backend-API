@@ -66,10 +66,6 @@ const orderSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  taxAmount: {
-    type: Number,
-    required: true,
-  },
   shippingAmount: {
     type: Number,
     required: true,
@@ -93,3 +89,6 @@ const orderSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model("Order", orderSchema);
+
+// ref link
+// https://stackoverflow.com/questions/28997636/should-i-use-schema-types-objectid-or-schema-objectid-when-defining-a-mongoose-s
