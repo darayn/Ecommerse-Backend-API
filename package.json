@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "description": "a backend api for ecommerse store",
   "main": "index.js",
+  "engines": {
+    "node": "14.x"
+  },
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js",
-    "vercel-build": "node index.js"
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",

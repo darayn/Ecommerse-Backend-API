@@ -50,5 +50,12 @@ app.get("/signuptest", (req, res) => {
   res.render("signupTest");
 });
 
+app.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "Welcome Ecommerse API",
+  });
+});
+
 //exporting app.js
 module.exports = app;
