@@ -8,7 +8,12 @@ const fileUpload = require("express-fileupload");
 //swaggers docs related
 const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs");
-const swaggerDocument = YAML.load("./swagger.yaml");
+const path = require("path");
+// const swaggerDocument = YAML.load("./swagger.yaml");
+
+console.log("__dirname:", __dirname);
+
+const swaggerDocument = YAML.load(path.join(__dirname, "swagger.yaml"));
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
